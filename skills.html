@@ -49,6 +49,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
         
         .nav-links a {
@@ -56,9 +57,37 @@
             text-decoration: none;
             font-size: 0.85rem;
             transition: color 0.3s;
+            cursor: pointer;
         }
         
         .nav-links a:hover { color: var(--accent); }
+        
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .login-btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+        }
         
         .container {
             max-width: 1200px;
@@ -117,6 +146,7 @@
             border: 1px solid var(--border);
             padding: 1.5rem;
             transition: all 0.3s;
+            cursor: pointer;
         }
         
         .skill-card:hover {
@@ -149,6 +179,22 @@
             font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 1rem;
+        }
+        
+        .skill-content {
+            background: #1a1a1a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: #888;
+            max-height: 150px;
+            overflow: hidden;
+        }
+        
+        .skill-content.expanded {
+            max-height: none;
         }
         
         .skill-meta {
@@ -202,31 +248,79 @@
             transform: scale(1.05);
         }
         
-        .hero-chips {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 3rem 0;
+        .post-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
         }
         
-        .hero-chip {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #2a2a2a, #0a0a0a 70%);
-            border: 2px solid var(--accent);
-            display: flex;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0.8);
+            z-index:0,0, 1000;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: var(--accent);
-            cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .hero-chip:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(201, 162, 39, 0.3);
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 600px;
+        }
+        
+        .modal h2 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            margin-right: 1rem;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
         }
         
         .back-link {
@@ -238,16 +332,20 @@
         }
         
         .back-link:hover { color: var(--accent); }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
     <nav>
         <a href="meissa-preview.html" class="logo">← MEISSA</a>
-        <ul class="nav-links">
-            <li><a href="#">热门</a></li>
-            <li><a href="#">最新</a></li>
-            <li><a href="#">标签</a></li>
-        </ul>
+        <div class="user-area" id="userArea">
+            <button class="login-btn" onclick="showLoginModal()">登录</button>
+        </div>
     </nav>
     
     <div class="container">
@@ -256,35 +354,77 @@
         <div class="header">
             <h1>SKILLS FORUM</h1>
             <p>AI & 算力技能分享社区</p>
-            
-            <div class="hero-chips">
-                <div class="hero-chip" onclick="filterBy('btc')">₿</div>
-                <div class="hero-chip" onclick="filterBy('eth')">Ξ</div>
-                <div class="hero-chip" onclick="filterBy('ai')">⚡</div>
-                <div class="hero-chip" onclick="filterBy('computing')">∞</div>
-            </div>
         </div>
         
         <div class="category-tabs">
             <div class="tab active" onclick="filterBy('all')">全部</div>
-            <div class="tab" onclick="filterBy('ai')">AI</div>
-            <div class="tab" onclick="filterBy('computing')">算力</div>
+            <div class="tab" onclick="filterBy('AI')">AI</div>
+            <div class="tab" onclick="filterBy('算力')">算力</div>
             <div class="tab" onclick="filterBy('量化')">量化</div>
             <div class="tab" onclick="filterBy('开发')">开发</div>
         </div>
         
-        <div class="skills-grid" id="skillsGrid">
-            <!-- Skills will be populated by JS -->
+        <div class="skills-grid" id="skillsGrid"></div>
+    </div>
+    
+    <button class="post-btn" id="postBtn" onclick="showPostModal()">+ 发布技能</button>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>登录 / 注册</h2>
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="loginUsername" placeholder="输入用户名">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="loginPassword" placeholder="输入密码">
+            </div>
+            <button class="btn" onclick="login()">登录</button>
+            <button class="btn btn-secondary" onclick="register()">注册</button>
+            <button class="btn btn-secondary" onclick="closeModal('loginModal')">取消</button>
         </div>
     </div>
     
-    <button class="post-btn" onclick="alert('发布功能开发中...')">+ 发布技能</button>
+    <!-- Post Modal -->
+    <div class="modal" id="postModal">
+        <div class="modal-content">
+            <h2>发布技能</h2>
+            <div class="form-group">
+                <label>标题</label>
+                <input type="text" id="postTitle" placeholder="技能标题">
+            </div>
+            <div class="form-group">
+                <label>标签</label>
+                <select id="postTag">
+                    <option value="AI">AI</option>
+                    <option value="算力">算力</option>
+                    <option value="量化">量化</option>
+                    <option value="开发">开发</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>简介</label>
+                <textarea id="postDesc" placeholder="简单描述..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>详细内容 (支持代码/Markdown)</label>
+                <textarea id="postContent" placeholder="在这里写详细内容..."></textarea>
+            </div>
+            <button class="btn" onclick="submitPost()">发布</button>
+            <button class="btn btn-secondary" onclick="closeModal('postModal')">取消</button>
+        </div>
+    </div>
     
     <script>
-        const skills = [
+        // 从localStorage获取数据
+        let skills = JSON.parse(localStorage.getItem('meissa_skills')) || [
             {
+                id: 1,
                 title: 'EvoMap Agent 进化网络完全指南',
-                desc: '深入解析EvoMap的CapsuleGene系统，如何让AI Agent像生物一样遗传经验。包含多Agent协作模式。',
+                desc: '深入解析EvoMap的CapsuleGene系统，如何让AI Agent像生物一样遗传经验。',
+                content: '# EvoMap Agent 指南\n\n## 什么是EvoMap?\n\nEvoMap是一个AI Agent进化网络，让Agent可以像生物一样遗传经验。\n\n## 核心概念\n\n- **Gene**: 编码能力的基础单元\n- **Capsule**: 封装可验证、可检索、可继承的知识\n- **GDI**: 遗传多样性指数',
                 tag: 'AI',
                 likes: 234,
                 comments: 56,
@@ -292,8 +432,10 @@
                 time: '2小时前'
             },
             {
+                id: 2,
                 title: 'H200 GPU 集群搭建实战',
-                desc: '从零搭建H200 GPU集群，包含网络配置、CUDA安装、多节点通信优化等关键步骤。',
+                desc: '从零搭建H200 GPU集群，包含网络配置、CUDA安装、多节点通信优化。',
+                content: '# H200 GPU集群搭建\n\n## 1. 硬件准备\n- H200 GPU x8\n- NVIDIA ConnectX-7网卡\n- 100Gbps IB网络\n\n## 2. CUDA安装\n```bash\nwget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb\n```',
                 tag: '算力',
                 likes: 189,
                 comments: 42,
@@ -301,61 +443,51 @@
                 time: '5小时前'
             },
             {
+                id: 3,
                 title: '5U量化交易策略 v6',
-                desc: '基于RSI和情绪的综合策略，实盘稳定盈利。包含仓位管理、止损止盈、风控系统。',
+                desc: '基于RSI和情绪的综合策略，实盘稳定盈利。',
+                content: '# 5U量化策略 v6\n\n## 策略原理\n- RSI > 70 不买入\n- RSI < 50 才考虑买入\n- 配合市场情绪指标\n\n## 风控系统\n- 5层防护\n- 止损止盈机制',
                 tag: '量化',
                 likes: 312,
                 comments: 78,
                 author: '量化研究员',
                 time: '1天前'
-            },
-            {
-                title: 'n8n 工作流自动化实战',
-                desc: '使用n8n搭建AI自动化工作流，集成OpenAI、Discord、飞书等平台。',
-                tag: '开发',
-                likes: 156,
-                comments: 34,
-                author: '自动化砖家',
-                time: '2天前'
-            },
-            {
-                title: 'LLM API 成本优化指南',
-                desc: '如何降低大模型API调用成本90%？包含Prompt压缩、缓存策略、模型选择技巧。',
-                tag: 'AI',
-                likes: 445,
-                comments: 89,
-                author: '省钱达人',
-                time: '3天前'
-            },
-            {
-                title: 'Docker GPU 容器化部署',
-                desc: 'GPU容器化完整教程，NVIDIA Container Toolkit安装，多容器GPU调度。',
-                tag: '算力',
-                likes: 201,
-                comments: 45,
-                author: 'DevOps张',
-                time: '4天前'
             }
         ];
         
-        function renderSkills(filter = 'all') {
+        let currentUser = JSON.parse(localStorage.getItem('meissa_user')) || null;
+        let currentFilter = 'all';
+        
+        function saveSkills() {
+            localStorage.setItem('meissa_skills', JSON.stringify(skills));
+        }
+        
+        function renderSkills() {
             const grid = document.getElementById('skillsGrid');
-            const filtered = filter === 'all' ? skills : skills.filter(s => s.tag.includes(filter));
+            const filtered = currentFilter === 'all' 
+                ? skills 
+                : skills.filter(s => s.tag === currentFilter);
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state">暂无内容，快来发布第一个技能吧！</div>';
+                return;
+            }
             
             grid.innerHTML = filtered.map(skill => `
-                <div class="skill-card">
+                <div class="skill-card" onclick="viewSkill(${skill.id})">
                     <div class="skill-header">
                         <div class="skill-title">${skill.title}</div>
                         <div class="skill-tag">${skill.tag}</div>
                     </div>
                     <div class="skill-desc">${skill.desc}</div>
+                    <div class="skill-content" onclick="event.stopPropagation()">${skill.content.substring(0, 150)}...</div>
                     <div class="skill-meta">
                         <span>♥ ${skill.likes}</span>
                         <span>💬 ${skill.comments}</span>
                         <span>⏰ ${skill.time}</span>
                     </div>
                     <div class="skill-author">
-                        <div class="author-avatar"></div>
+                        <div class="author-avatar">${skill.author[0].toUpperCase()}</div>
                         <div class="author-name">${skill.author}</div>
                     </div>
                 </div>
@@ -363,19 +495,106 @@
         }
         
         function filterBy(tag) {
+            currentFilter = tag;
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
-            renderSkills(tag);
+            renderSkills();
         }
         
-        // Check URL params
-        const params = new URLSearchParams(window.location.search);
-        const category = params.get('category');
-        if (category) {
-            renderSkills(category);
-        } else {
-            renderSkills('all');
+        function viewSkill(id) {
+            const skill = skills.find(s => s.id === id);
+            if (skill) {
+                alert(`${skill.title}\n\n${skill.content}`);
+            }
         }
+        
+        // 用户认证
+        function updateUserArea() {
+            const userArea = document.getElementById('userArea');
+            const postBtn = document.getElementById('postBtn');
+            
+            if (currentUser) {
+                userArea.innerHTML = `
+                    <div class="user-avatar">${currentUser.name[0].toUpperCase()}</div>
+                    <span>${currentUser.name}</span>
+                    <a onclick="logout()">退出</a>
+                `;
+                postBtn.disabled = false;
+            } else {
+                userArea.innerHTML = '<button class="login-btn" onclick="showLoginModal()">登录</button>';
+                postBtn.disabled = true;
+            }
+        }
+        
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            if (!username) return alert('请输入用户名');
+            
+            currentUser = { name: username };
+            localStorage.setItem('meissa_user', JSON.stringify(currentUser));
+            updateUserArea();
+            closeModal('loginModal');
+        }
+        
+        function register() {
+            login(); // 注册和登录一样
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('meissa_user');
+            updateUserArea();
+        }
+        
+        // 发布
+        function showPostModal() {
+            if (!currentUser) return showLoginModal();
+            document.getElementById('postModal').classList.add('active');
+        }
+        
+        function submitPost() {
+            const title = document.getElementById('postTitle').value;
+            const tag = document.getElementById('postTag').value;
+            const desc = document.getElementById('postDesc').value;
+            const content = document.getElementById('postContent').value;
+            
+            if (!title || !content) return alert('请填写标题和内容');
+            
+            const newSkill = {
+                id: Date.now(),
+                title,
+                tag,
+                desc: desc || title,
+                content,
+                likes: 0,
+                comments: 0,
+                author: currentUser.name,
+                time: '刚刚'
+            };
+            
+            skills.unshift(newSkill);
+            saveSkills();
+            renderSkills();
+            
+            // 清空表单
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postDesc').value = '';
+            document.getElementById('postContent').value = '';
+            
+            closeModal('postModal');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        // 初始化
+        updateUserArea();
+        renderSkills();
     </script>
 </body>
 </html>
