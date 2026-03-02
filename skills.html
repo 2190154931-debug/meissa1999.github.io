@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEISSA Skills | 技能社区</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111;
+            --accent: #c9a227;
+            --accent-dim: #8a7019;
+            --text-primary: #f5f5f5;
+            --text-secondary: #666;
+            --border: #222;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        nav {
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(10,10,10,0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover { color: var(--accent); }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+        }
+        
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .tab:hover, .tab.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .skill-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .skill-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+            background: rgba(201, 162, 39, 0.15);
+            color: var(--accent);
+        }
+        
+        .skill-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .skill-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .skill-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .author-name {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .post-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            font-family: 'Space Mono', monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .post-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .hero-chips {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .hero-chip {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #2a2a2a, #0a0a0a 70%);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .hero-chip:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(201, 162, 39, 0.3);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        
+        .back-link:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="meissa-preview.html" class="logo">← MEISSA</a>
+        <ul class="nav-links">
+            <li><a href="#">热门</a></li>
+            <li><a href="#">最新</a></li>
+            <li><a href="#">标签</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <a href="meissa-preview.html" class="back-link">← 返回首页</a>
+        
+        <div class="header">
+            <h1>SKILLS FORUM</h1>
+            <p>AI & 算力技能分享社区</p>
+            
+            <div class="hero-chips">
+                <div class="hero-chip" onclick="filterBy('btc')">₿</div>
+                <div class="hero-chip" onclick="filterBy('eth')">Ξ</div>
+                <div class="hero-chip" onclick="filterBy('ai')">⚡</div>
+                <div class="hero-chip" onclick="filterBy('computing')">∞</div>
+            </div>
+        </div>
+        
+        <div class="category-tabs">
+            <div class="tab active" onclick="filterBy('all')">全部</div>
+            <div class="tab" onclick="filterBy('ai')">AI</div>
+            <div class="tab" onclick="filterBy('computing')">算力</div>
+            <div class="tab" onclick="filterBy('量化')">量化</div>
+            <div class="tab" onclick="filterBy('开发')">开发</div>
+        </div>
+        
+        <div class="skills-grid" id="skillsGrid">
+            <!-- Skills will be populated by JS -->
+        </div>
+    </div>
+    
+    <button class="post-btn" onclick="alert('发布功能开发中...')">+ 发布技能</button>
+    
+    <script>
+        const skills = [
+            {
+                title: 'EvoMap Agent 进化网络完全指南',
+                desc: '深入解析EvoMap的CapsuleGene系统，如何让AI Agent像生物一样遗传经验。包含多Agent协作模式。',
+                tag: 'AI',
+                likes: 234,
+                comments: 56,
+                author: 'ob',
+                time: '2小时前'
+            },
+            {
+                title: 'H200 GPU 集群搭建实战',
+                desc: '从零搭建H200 GPU集群，包含网络配置、CUDA安装、多节点通信优化等关键步骤。',
+                tag: '算力',
+                likes: 189,
+                comments: 42,
+                author: '算力老王',
+                time: '5小时前'
+            },
+            {
+                title: '5U量化交易策略 v6',
+                desc: '基于RSI和情绪的综合策略，实盘稳定盈利。包含仓位管理、止损止盈、风控系统。',
+                tag: '量化',
+                likes: 312,
+                comments: 78,
+                author: '量化研究员',
+                time: '1天前'
+            },
+            {
+                title: 'n8n 工作流自动化实战',
+                desc: '使用n8n搭建AI自动化工作流，集成OpenAI、Discord、飞书等平台。',
+                tag: '开发',
+                likes: 156,
+                comments: 34,
+                author: '自动化砖家',
+                time: '2天前'
+            },
+            {
+                title: 'LLM API 成本优化指南',
+                desc: '如何降低大模型API调用成本90%？包含Prompt压缩、缓存策略、模型选择技巧。',
+                tag: 'AI',
+                likes: 445,
+                comments: 89,
+                author: '省钱达人',
+                time: '3天前'
+            },
+            {
+                title: 'Docker GPU 容器化部署',
+                desc: 'GPU容器化完整教程，NVIDIA Container Toolkit安装，多容器GPU调度。',
+                tag: '算力',
+                likes: 201,
+                comments: 45,
+                author: 'DevOps张',
+                time: '4天前'
+            }
+        ];
+        
+        function renderSkills(filter = 'all') {
+            const grid = document.getElementById('skillsGrid');
+            const filtered = filter === 'all' ? skills : skills.filter(s => s.tag.includes(filter));
+            
+            grid.innerHTML = filtered.map(skill => `
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-title">${skill.title}</div>
+                        <div class="skill-tag">${skill.tag}</div>
+                    </div>
+                    <div class="skill-desc">${skill.desc}</div>
+                    <div class="skill-meta">
+                        <span>♥ ${skill.likes}</span>
+                        <span>💬 ${skill.comments}</span>
+                        <span>⏰ ${skill.time}</span>
+                    </div>
+                    <div class="skill-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-name">${skill.author}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function filterBy(tag) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderSkills(tag);
+        }
+        
+        // Check URL params
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get('category');
+        if (category) {
+            renderSkills(category);
+        } else {
+            renderSkills('all');
+        }
+    </script>
+</body>
+</html>
