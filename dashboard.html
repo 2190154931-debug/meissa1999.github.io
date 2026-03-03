@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEISSA Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card h2 {
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card h2::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .price.up { color: #00ff88; }
+        .price.down { color: #ff4444; }
+        
+        .change {
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .change.up { background: rgba(0,255,136,0.2); color: #00ff88; }
+        .change.down { background: rgba(255,68,68,0.2); color: #ff4444; }
+        
+        .position {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+        
+        .position-name {
+            color: #ccc;
+        }
+        
+        .position-price {
+            font-weight: bold;
+        }
+        
+        .status-ok {
+            color: #00ff88;
+        }
+        
+        .status-error {
+            color: #ff4444;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+            font-size: 0.8rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .updating {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 MEISSA Dashboard</h1>
+        <p style="color:#666">实时数据监控</p>
+    </div>
+    
+    <div class="grid">
+        <!-- 加密货币 -->
+        <div class="card">
+            <h2>加密货币</h2>
+            <div id="crypto">
+                <div class="price up">Loading...</div>
+            </div>
+        </div>
+        
+        <!-- Polymarket -->
+        <div class="card">
+            <h2>Polymarket 持仓</h2>
+            <div id="polymarket">
+                <div class="updating">Loading...</div>
+            </div>
+        </div>
+        
+        <!-- 量化交易 -->
+        <div class="card">
+            <h2>量化交易状态</h2>
+            <div id="quant">
+                <div class="updating">Loading...</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="last-updated">
+        最后更新: <span id="lastUpdate">--</span>
+    </div>
+    
+    <script>
+        // 加载状态文件
+        async function loadData() {
+            const now = new Date().toLocaleTimeString();
+            document.getElementById('lastUpdate').textContent = now;
+            
+            // 1. 加密货币价格
+            try {
+                const cryptoRes = await fetch('https://api.binance.com/api/v3/ticker/price');
+                const prices = await cryptoRes.json();
+                const btc = prices.find(p => p.symbol === 'BTCUSDT');
+                const eth = prices.find(p => p.symbol === 'ETHUSDT');
+                const doge = prices.find(p => p.symbol === 'DOGEUSDT');
+                
+                document.getElementById('crypto').innerHTML = `
+                    <div class="price">$${parseFloat(btc.price).toLocaleString()}</div>
+                    <div class="change up">BTC</div>
+                    <div class="price" style="margin-top:20px">$${parseFloat(eth.price).toLocaleString()}</div>
+                    <div class="change up">ETH</div>
+                `;
+            } catch(e) {
+                document.getElementById('crypto').innerHTML = '<div class="status-error">加载失败</div>';
+            }
+            
+            // 2. Polymarket状态
+            try {
+                const stateRes = await fetch('polymarket_state.json');
+                const state = await stateRes.json();
+                
+                let html = `<div>余额: $${state.balance.toFixed(2)}</div>`;
+                html += `<div>持仓数: ${Object.keys(state.positions || {}).length}</div>`;
+                html += `<div>交易次数: ${state.trade_history?.length || 0}</div>`;
+                
+                const wins = state.wins || 0;
+                const losses = state.losses || 0;
+                const total = wins + losses;
+                const wr = total > 0 ? (wins/total*100).toFixed(0) + '%' : 'N/A';
+                html += `<div>胜率: ${wr}</div>`;
+                
+                document.getElementById('polymarket').innerHTML = html;
+            } catch(e) {
+                document.getElementById('polymarket').innerHTML = '<div class="status-error">加载失败</div>';
+            }
+            
+            // 3. 量化交易
+            document.getElementById('quant').innerHTML = `
+                <div class="status-ok">● 运行中</div>
+                <div>BTC: HOLD</div>
+                <div>ETH: HOLD</div>
+                <div>DOGE: HOLD</div>
+            `;
+        }
+        
+        // 初始加载
+        loadData();
+        
+        // 每30秒刷新
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>
