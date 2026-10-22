@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+# 公开页：/ 、/tiktok-line/ 、/tiktok-line/zifei/ 、/zimao-cloud/
 Sitemap: https://meissa1999.xin/sitemap.xml
