@@ -1,0 +1,160 @@
+/* Shared conversion UI. Pages keep their own layout CSS and link this file. */
+.wx-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+button.cta-btn,
+button.js-copy-wechat {
+  font-family: inherit;
+  cursor: pointer;
+  border: 0;
+  line-height: 1.2;
+}
+
+.js-copy-wechat {
+  appearance: none;
+  background: #0b5fff;
+  color: #fff;
+  font-weight: 650;
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.js-copy-wechat.is-copied {
+  background: #0d7a4f;
+}
+
+.cta-band .wx-id {
+  font-size: 1.35rem;
+}
+
+.cta-band .js-copy-wechat,
+.sticky-cta .js-copy-wechat {
+  background: #fff !important;
+  color: #0b5fff !important;
+}
+
+.js-copy-wechat.compact {
+  min-height: 32px;
+  padding: 4px 10px;
+  font-size: 12px;
+  background: transparent;
+  color: #0b5fff;
+  border: 1px solid #0b5fff;
+}
+
+.cta-band .js-copy-wechat.is-copied,
+.sticky-cta .js-copy-wechat.is-copied {
+  background: #e6f7ef !important;
+  color: #0d7a4f !important;
+}
+
+.js-copy-wechat:focus-visible,
+.sticky-cta a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.next-step ol {
+  margin: 0 0 14px;
+  padding-left: 1.2em;
+  color: #1a2332;
+}
+
+.next-step li {
+  margin: 0 0 6px;
+}
+
+.next-step li:last-child {
+  margin-bottom: 0;
+}
+
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: #12306e;
+  color: #fff;
+  box-shadow: 0 -6px 20px rgba(16, 24, 40, 0.16);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+}
+
+.sticky-cta-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.sticky-cta p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #fff;
+}
+
+.sticky-cta .copy-status {
+  flex-basis: 100%;
+  font-size: 13px;
+  color: #d9ffe9;
+}
+
+.sticky-cta .wx-id {
+  color: #fff;
+}
+
+.sticky-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.sticky-cta a.ghost-link {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 10px 12px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body {
+  padding-bottom: 148px;
+}
+
+@media (max-width: 719px) {
+  header .nav > .js-copy-wechat {
+    display: none;
+  }
+}
+
+@media (min-width: 760px) {
+  body {
+    padding-bottom: 84px;
+  }
+}
+
+@media print {
+  .sticky-cta {
+    display: none;
+  }
+  body {
+    padding-bottom: 0;
+  }
+}
