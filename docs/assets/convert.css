@@ -132,6 +132,12 @@ body {
   padding-bottom: 148px;
 }
 
+@media (max-width: 719px) {
+  header .nav > .js-copy-wechat {
+    display: none;
+  }
+}
+
 @media (min-width: 760px) {
   body {
     padding-bottom: 84px;
