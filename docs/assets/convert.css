@@ -104,6 +104,12 @@ button.js-copy-wechat {
   color: #fff;
 }
 
+.sticky-cta .copy-status {
+  flex-basis: 100%;
+  font-size: 13px;
+  color: #d9ffe9;
+}
+
 .sticky-cta .wx-id {
   color: #fff;
 }

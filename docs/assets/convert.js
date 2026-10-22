@@ -37,6 +37,19 @@
     });
   }
 
+  function setStatus(message) {
+    var bar = document.querySelector(".sticky-cta-inner");
+    if (!bar) return;
+    var el = bar.querySelector(".copy-status");
+    if (!el) {
+      el = document.createElement("p");
+      el.className = "copy-status";
+      el.setAttribute("role", "status");
+      bar.appendChild(el);
+    }
+    el.textContent = message;
+  }
+
   document.querySelectorAll(".js-copy-wechat").forEach(function (button) {
     if (!button.hasAttribute("aria-live")) button.setAttribute("aria-live", "polite");
   });
@@ -51,16 +64,18 @@
     copyText(id).then(function () {
       button.textContent = "已复制 " + id;
       button.classList.add("is-copied");
+      setStatus("已复制 " + id + "。打开微信，添加朋友，搜索后粘贴。");
       trackCopy();
       window.setTimeout(function () {
         button.textContent = original;
         button.classList.remove("is-copied");
-      }, 2000);
+      }, 6000);
     }).catch(function () {
       button.textContent = "请长按选中 " + id;
+      setStatus("没有写入剪贴板。请长按页面上的 " + id + " 再复制。");
       window.setTimeout(function () {
         button.textContent = original;
-      }, 2500);
+      }, 6000);
     });
   });
 })();
