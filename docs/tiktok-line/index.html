@@ -121,6 +121,29 @@
       margin: 0 0 22px;
       max-width: 46em;
     }
+    .answer-block {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+      margin: 0 0 22px;
+      max-width: 46em;
+    }
+    .answer-block h2 {
+      font-size: 0.82rem;
+      line-height: 1.4;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+    .answer-block p {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
@@ -249,6 +272,14 @@
       color: var(--muted);
       font-size: 0.95rem;
     }
+    .faq details ol {
+      margin: 10px 0 0;
+      padding-left: 1.25em;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .faq details li { margin: 0 0 6px; }
+    .faq details li:last-child { margin-bottom: 0; }
     .cta-band {
       background: linear-gradient(160deg, #0b5fff 0%, #1a3a8f 100%);
       color: #fff;
@@ -291,6 +322,30 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "TikTok专线和普通海外 VPS、家宽或普通 VPN 有什么区别？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TikTok专线是字节 TK 官方海外带宽档位对接（区域节点 + 带宽月费口径），不是随便买一台 VPS 或翻墙工具。普通海外 VPS 是通用算力/主机，家宽或普通 VPN 侧重加密隧道，都不能等同 TK 官方海外带宽资费表里的专线档位。适合需要对照新加坡、印尼等节点公开档位、做跨境带宽对接的团队。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "谁适合开通 TikTok 专线？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "适合 TikTok / 短视频出海、多店铺跨境电商、代运营或矩阵团队，以及需要带宽档位或紫猫云电脑防关联的 B 端。不面向个人娱乐做承诺。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TikTok专线怎么开通？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "确定区域和带宽（5M / 10M / 15M / 20M）→ 如需店铺隔离则补充紫猫云电脑大概账号数 → 微信添加朋友搜索粘贴 Meissa4 → 华东对接确认后开通。开通步骤：确定区域和带宽（5M / 10M / 15M / 20M）。新加坡与印尼雅加达为 800 / 1100 / 1500 / 1800 元/月，其他列出区域为 1000 / 1500 / 1900 / 2300 元/月。以上为公开资费口径。如需店铺隔离，补充紫猫云电脑大概账号数。本站不列紫猫云电脑单价。在微信「添加朋友」中搜索并粘贴微信号 Meissa4。公开联系只有这个微信号。杭州碧谷科技（猛核）华东对接确认后开通。开通以商务确认与平台履约为准。"
+        }
+      },
       {
         "@type": "Question",
         "name": "TikTok 专线带宽有哪些档位与区域？",
@@ -336,7 +391,7 @@
         "name": "紫猫云电脑本页有月费吗？专线是否必须一起买？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "本页没有紫猫云电脑单价，需要按账号规模在微信 Meissa4 确认。TikTok 专线与紫猫云电脑可以分开咨询，也可以一并说明，页面不做捆绑承诺。"
+          "text": "本页没有紫猫云电脑单价，需要按账号规模在微信 Meissa4 确认。TikTok 专线与紫猫云电脑可以分开咨询，也可以一并说明，页面不做捆绑承诺。防关联说明见紫猫云电脑。"
         }
       },
       {
@@ -386,8 +441,114 @@
           "lowPrice": "800",
           "highPrice": "2300",
           "offerCount": "8",
-          "description": "字节 TK 官方海外带宽公开资费口径，单位元/月。新加坡/印尼雅加达 5M–20M 为 800/1100/1500/1800；其他列出区域 5M–20M 为 1000/1500/1900/2300。开通以商务确认与平台履约为准。"
+          "url": "https://meissa1999.xin/tiktok-line/#pricing",
+          "description": "字节 TK 官方海外带宽公开资费口径，单位元/月。新加坡/印尼雅加达 5M–20M 为 800/1100/1500/1800；其他列出区域 5M–20M 为 1000/1500/1900/2300。开通以商务确认与平台履约为准。紫猫云电脑本站不列单价。",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "新加坡 / 印尼雅加达 5M",
+              "price": "800",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 800 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "新加坡 / 印尼雅加达 10M",
+              "price": "1100",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 1100 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "新加坡 / 印尼雅加达 15M",
+              "price": "1500",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 1500 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "新加坡 / 印尼雅加达 20M",
+              "price": "1800",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 1800 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "其他列出区域 5M",
+              "price": "1000",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "美国洛杉矶、菲马泰越台湾、墨西哥城、英西德法意、日本东京与韩国首尔。公开资费口径 1000 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "其他列出区域 10M",
+              "price": "1500",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 1500 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "其他列出区域 15M",
+              "price": "1900",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 1900 元/月。开通以商务确认与平台履约为准。"
+            },
+            {
+              "@type": "Offer",
+              "name": "其他列出区域 20M",
+              "price": "2300",
+              "priceCurrency": "CNY",
+              "url": "https://meissa1999.xin/tiktok-line/#pricing",
+              "description": "公开资费口径 2300 元/月。开通以商务确认与平台履约为准。"
+            }
+          ]
         }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "TikTok专线怎么开通",
+    "description": "确定区域和带宽（5M / 10M / 15M / 20M）→ 如需店铺隔离则补充紫猫云电脑大概账号数 → 微信添加朋友搜索粘贴 Meissa4 → 华东对接确认后开通。",
+    "url": "https://meissa1999.xin/tiktok-line/#howto",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "确定区域和带宽",
+        "url": "https://meissa1999.xin/tiktok-line/#howto",
+        "text": "确定区域和带宽（5M / 10M / 15M / 20M）。新加坡与印尼雅加达为 800 / 1100 / 1500 / 1800 元/月，其他列出区域为 1000 / 1500 / 1900 / 2300 元/月。以上为公开资费口径。"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "如需店铺隔离，补充紫猫账号数",
+        "url": "https://meissa1999.xin/tiktok-line/#howto",
+        "text": "如需店铺隔离，补充紫猫云电脑大概账号数。本站不列紫猫云电脑单价。"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "微信添加朋友并粘贴 Meissa4",
+        "url": "https://meissa1999.xin/tiktok-line/#howto",
+        "text": "在微信「添加朋友」中搜索并粘贴微信号 Meissa4。公开联系只有这个微信号。"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "华东对接确认后开通",
+        "url": "https://meissa1999.xin/tiktok-line/#howto",
+        "text": "杭州碧谷科技（猛核）华东对接确认后开通。开通以商务确认与平台履约为准。"
       }
     ]
   }
@@ -420,6 +581,10 @@
         杭州碧谷科技（猛核）为华东业务对接渠道：提供<strong>字节 TK 官方海外带宽</strong>资费口径对照，以及<strong>火山引擎 × 紫猫</strong>的紫猫 Ai 云电脑（一账号一独立电脑、固定 IP、三重防关联）。
         下一步是说明区域和带宽，公开联系仅微信 <strong class="wx-id">Meissa4</strong>。
       </p>
+      <div class="answer-block" id="answer">
+        <h2>一句话答案</h2>
+        <p>TikTok专线是字节 TK 官方海外带宽对接口径：按区域节点和带宽档位（5M / 10M / 15M / 20M）对照公开月费，不是一台普通海外 VPS，也不是家宽或普通 VPN。适合需要对照新加坡、印尼等节点公开档位、做跨境带宽对接的团队。说明区域和带宽后，微信添加朋友搜索粘贴 Meissa4，由杭州碧谷科技（猛核）华东对接确认后开通。</p>
+      </div>
       <div class="hero-actions">
         <button type="button" class="cta-btn js-copy-wechat" data-wechat="Meissa4">复制微信 Meissa4</button>
         <a class="cta-btn ghost" href="#pricing">查看带宽资费表</a>
@@ -607,6 +772,25 @@
       <div class="wrap">
         <h2>常见问题</h2>
         <p class="section-intro">以下内容与页面 JSON-LD FAQ 一致，便于搜索引擎理解。</p>
+        <details>
+          <summary>TikTok专线和普通海外 VPS、家宽或普通 VPN 有什么区别？</summary>
+          <p>TikTok专线是字节 TK 官方海外带宽档位对接（区域节点 + 带宽月费口径），不是随便买一台 VPS 或翻墙工具。普通海外 VPS 是通用算力/主机，家宽或普通 VPN 侧重加密隧道，都不能等同 TK 官方海外带宽资费表里的专线档位。适合需要对照新加坡、印尼等节点公开档位、做跨境带宽对接的团队。</p>
+        </details>
+        <details>
+          <summary>谁适合开通 TikTok 专线？</summary>
+          <p>适合 TikTok / 短视频出海、多店铺跨境电商、代运营或矩阵团队，以及需要带宽档位或紫猫云电脑防关联的 B 端。不面向个人娱乐做承诺。</p>
+        </details>
+        <details id="howto">
+          <summary>TikTok专线怎么开通？</summary>
+          <p>确定区域和带宽（5M / 10M / 15M / 20M）→ 如需店铺隔离则补充紫猫云电脑大概账号数 → 微信添加朋友搜索粘贴 Meissa4 → 华东对接确认后开通。</p>
+          <p>开通步骤：</p>
+          <ol>
+            <li>确定区域和带宽（5M / 10M / 15M / 20M）。新加坡与印尼雅加达为 800 / 1100 / 1500 / 1800 元/月，其他列出区域为 1000 / 1500 / 1900 / 2300 元/月。以上为公开资费口径。</li>
+            <li>如需店铺隔离，补充紫猫云电脑大概账号数。本站不列紫猫云电脑单价。</li>
+            <li>在微信「添加朋友」中搜索并粘贴微信号 Meissa4。公开联系只有这个微信号。</li>
+            <li>杭州碧谷科技（猛核）华东对接确认后开通。开通以商务确认与平台履约为准。</li>
+          </ol>
+        </details>
         <details>
           <summary>TikTok 专线带宽有哪些档位与区域？</summary>
           <p>官方资费表提供 5M / 10M / 15M / 20M 四档。新加坡与印尼雅加达为优惠档：800 / 1100 / 1500 / 1800 元/月；美国洛杉矶、菲马泰越台湾、墨西哥城、英西德法意、日本东京与韩国首尔等其他区域为：1000 / 1500 / 1900 / 2300 元/月。具体网络性能受线路环境影响，最终解释权归字节 TK 平台所有。</p>

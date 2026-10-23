@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
 
-# 公开页：/ 、/tiktok-line/ 、/tiktok-line/zifei/ 、/zimao-cloud/
+# 公开页：/ 、/tiktok-line/ 、/tiktok-line/zifei/ 、/zimao-cloud/ 、/llms.txt
 Sitemap: https://meissa1999.xin/sitemap.xml
